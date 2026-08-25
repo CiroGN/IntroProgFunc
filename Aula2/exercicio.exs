@@ -5,5 +5,5 @@ defmodule Exercicio do
   end
 end
 
-# c"exercicio.exs"
+# c"Aula2\\exercicio.exs"
 # Exercicio.dobro(n)
