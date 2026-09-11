@@ -1,0 +1,16 @@
+Escreva respostas curtas:
+
+A) Por que em:
+
+iex(1)> x = 1
+1
+iex(2)> {x, ^x} = {2, 1}
+{2, 1}
+
+O x passa a valer 2?
+
+B) Como listas são implementadas internamente em Elixir e Erlang?
+
+C) No que o casamento de padrões difere de um comando de atribuição.
+
+Indique as fontes para suas respostas.
