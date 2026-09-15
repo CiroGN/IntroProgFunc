@@ -19,7 +19,7 @@ Elixir e Erlang implementam listas como listas encadeadas. Isso significa que ac
 
 ## C) No que o casamento de padrões difere de um comando de atribuição.
 
-
+no casamento de padrões há atribuições, porém vai além de simplesmente atribuir, nele, como pelo nome ja diz, envolve padrões, seja atribuir valores a uma sequência (que é um padrão), ou seja, uma lista com variáveis {a, b, c} pode receber {1, 2, 3}, o que resulta em a = 1, b = 2 e c =3, onde que em atribuição poderiamos apenas ter variáveis a, b e c com cada uma sendo a = {1, 2, 3}, b = {1, 2, 3}, etc... Outra coisa que difere é possivelmente a análise, como em Elixir temos o pin(^), se usarmos como prefixo antes de uma variavel sofrer o pattern matching, conseguimos analizar no match se o valor a ser atribuido é igual ao valor da variável pinnada chamada, caso contrário, retorna erro.
 
 ## Fontes
 
