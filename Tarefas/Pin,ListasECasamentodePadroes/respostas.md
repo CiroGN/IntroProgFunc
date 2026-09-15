@@ -2,7 +2,7 @@
 
 ## A) Porque em:
 
-```Erlang
+```elixir
 iex(1)> x = 1
 1
 iex(2)> {x, ^x} = {2, 1}
@@ -11,19 +11,19 @@ iex(2)> {x, ^x} = {2, 1}
 
 ## O x passa a valer 2?
 
-Pois em {x, ^x}, a primeira chamada de x, não o deixa fixo ao valor antes atribuido, ou seja, como vai acontecer um match com {2, 1}, o valor de x é alterado para 2 pois a chamada não possui o "^" antes. Quanto ao ^x, o pin serve como um verificador que previne a alteração do valor para a chamada de x neste caso, mas não evita que todas as outras chamadas de x sejam proibidas de receber um novo valor, a não ser que todos estes tenham o prefixo "^", apenas a segunda chamada não pode ser atribuida a um novo valor.
+Pois em {x, ^x}, a primeira ocorrência de x não possui o "^" antes, ou seja, não fica fixa ao valor antes atribuído. Como vai acontecer um match com {2, 1}, x é religado (rebinding) ao valor 2. O valor 1 em si não é alterado, pois em Elixir os dados são imutáveis, apenas o nome x passa a apontar para 2. Quanto ao ^x, o pin usa o valor que x tinha antes do match (1) e serve como um verificador: ele apenas confere se o segundo elemento é igual a 1, sem receber um novo valor. Por isso o match dá certo e x passa a valer 2. Se fosse {x, ^x} = {2, 2}, ocorreria um MatchError, pois ^x continua valendo 1.
 
 ## B) Como listas são implementadas internamente em Elixir e Erlang?
 
-Elixir e Erlang implementam listas como listas encadeadas. Isso significa que acessar o tamanho da lista é uma operação que rodará em tempo linear. Por essa razão, é normalmente mais rápido inserir um elemento no início do que no final, a não ser que queira criar muitas cópias da lista crescente resultante.
+Elixir e Erlang implementam listas como listas simplesmente encadeadas, onde cada elemento é uma célula com uma cabeça (head) e uma cauda (tail), terminando em uma lista vazia, por exemplo [1 | [2 | [3 | []]]]. Isso significa que acessar o tamanho da lista é uma operação que rodará em tempo linear (O(n)). Por essa razão, é normalmente mais rápido inserir um elemento no início do que no final, pois inserir no final (com ++) cria uma cópia da lista inteira, enquanto inserir no início apenas aponta para a lista já existente como cauda.
 
 ## C) No que o casamento de padrões difere de um comando de atribuição.
 
-no casamento de padrões há atribuições, porém vai além de simplesmente atribuir, nele, como pelo nome ja diz, envolve padrões, seja atribuir valores a uma sequência (que é um padrão), ou seja, uma lista com variáveis {a, b, c} pode receber {1, 2, 3}, o que resulta em a = 1, b = 2 e c =3, onde que em atribuição poderiamos apenas ter variáveis a, b e c com cada uma sendo a = {1, 2, 3}, b = {1, 2, 3}, etc... Outra coisa que difere é possivelmente a análise, como em Elixir temos o pin(^), se usarmos como prefixo antes de uma variavel sofrer o pattern matching, conseguimos analizar no match se o valor a ser atribuido é igual ao valor da variável pinnada chamada, caso contrário, retorna erro.
+No casamento de padrões há atribuições, porém vai além de simplesmente atribuir. Nele, como o nome já diz, envolve padrões: o operador = compara um padrão (lado esquerdo) com um valor (lado direito) e liga as variáveis necessárias para que os dois lados fiquem iguais. Por exemplo, uma tupla com variáveis {a, b, c} pode receber {1, 2, 3}, o que resulta em a = 1, b = 2 e c = 3, enquanto em uma atribuição comum o valor é apenas guardado em uma variável, como a = {1, 2, 3}. Outra coisa que difere é que o casamento pode falhar: se os dois lados não puderem ficar iguais, é lançado um MatchError. Por isso podemos ter valores fixos do lado esquerdo, como 1 = x, que só funciona se x valer 1. Além disso, como em Elixir temos o pin (^), se usarmos como prefixo de uma variável no pattern matching, conseguimos analisar no match se o valor é igual ao valor que a variável pinada já tinha; caso contrário, é lançado um MatchError.
 
 ## Fontes
 
-[elixir.hexdocs.pm/pattern-matching.html](https://elixir.hexdocs.pm/pattern-matching.html#the-pin-operator)#the-pin-operator
+[elixir.hexdocs.pm/pattern-matching.html#the-pin-operator](https://elixir.hexdocs.pm/pattern-matching.html#the-pin-operator)
 
 [elixirschool.com/pt/lessons/basics/collections](https://elixirschool.com/pt/lessons/basics/collections)
 
